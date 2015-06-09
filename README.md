@@ -1,62 +1,52 @@
-starter-kit
+Critical CSS
 =======
 
-フロントエンドスターターキット。  
-node.jsを事前にインストールすること。
+## クリティカルCSSとは
 
-## インストール方法
+*Critical CSS* 直訳すると「*重要なCSS*」  
 
-### gulpをインストール
-```
-$ npm install -g gulp
-```
+元ネタはGoogle PageSpeed。  
+> *「スクロールせずに見える範囲のコンテンツのサイズを削減する」*
 
-### リポジトリをclone
-```
-$ mkdir project_name
-$ cd project_name/
-$ git clone https://github.com/yuhiisk/starter-kit.git ./
-```
+> リクエストされたデータの量が初期の輻輳ウィンドウを超える場合、サーバーとユーザーのブラウザ間で追加の往復が必要になります。モバイル ネットワークのような遅延の多いネットワークの場合、これによってページの読み込みが大幅に遅れる可能性があります。
 
-### npmモジュールをインストール
-```
-$ npm install
-```
+CSSconf EU 2014においてGoogleのAddy Osmaniの講演内で大々的に手法が紹介された。
 
-### タスクの実行
-```
-$ gulp
-```
+- HTMLからスタイルシートを抽出
+    ツールが抽出するか、あらかじめ *.cssファイルを事前に指定するか。どちらでもよい。
+- ファーストビューのCSSを生成
+    ターゲットとするviewportを決める。モバイルとデスクトップのバランスから最適解を一つに絞るか、サーバ側で判別して対応するか。
+    14KB以下におさめる。
+- クリティカルパスのCSSをにインライン化
+- 残りのスタイルは非同期で読込む
 
-## Tasks
-```
-$ gulp # デフォルトタスク
-$ gulp deploy # デプロイ（src/ を dist/ にコピー）
-$ gulp minify (※工事中)
-```
+## クリティカルCSSで変わること
 
-## Compassを使う
+## クリティカルCSSのメリット
 
-gulpfile.coffee
-`styles` タスクの代わりに `compass` タスクを使用する。
-`@import 'compass';` を忘れないこと。
+## クリティカルCSSのデメリット
+- うかつにCSSを直接いじれなくなる。
+    もうツールを使わないと絶対に無理。運用面も考慮した選択を。
 
-## browserifyを使う
+## クリティカルCSSの実例
 
-[browserify](http://browserify.org/)
+### Tool
+npm Packages
 
-gulpfile.coffee
-`coffee` タスクを `browserify` に置き換えて使えます。
+[critical](https://www.npmjs.com/package/critical)
 
-## CSSスプライトを使う
+- grunt
+- gulp
 
-`src/assets/img/sprite/` にフォルダを分けて配置する。
-フォルダごとに scss と スプライト画像が生成されます。
+[Critical Path CSS Generator](http://jonassebastianohlsson.com/criticalpathcssgenerator/)
 
-```
-$ gulp sprite # 全てのスプライトを生成
-$ gulp sprite-[フォルダ名] # フォルダ単位でスプライトを生成
-```
+## クリティカルCSSの実用性
 
-生成されたscssはimportして使用する。
-詳しくは `src/scss/module/sprite-map.scss` を参照。
+- ページが縦長になりがちなレスポンシブWebデザイン（RWD）スマートフォンサイトに特に有用。
+
+## Next Step
+- サーバ側でキャッシュさせる
+
+## 参考
+[Inlining critical CSS for first-time visits](https://adactio.com/journal/8504)
+
